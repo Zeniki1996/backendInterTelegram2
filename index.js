@@ -5,7 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 //const port = 3000;
-const port = process.env.PORT || 3000; // Puerto dinámico
+const PORT = process.env.PORT || 3000; // Puerto dinámico
 
 app.use(express.json());
 // usar cors permitiendo todos los origenes
@@ -179,6 +179,6 @@ app.get("/api/sesiones/:id/detalles", (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server corriendo en el puerto ${PORT}`);
 });
