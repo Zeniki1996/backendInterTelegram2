@@ -49,7 +49,8 @@ app.post("/api/post_location", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 
-  res.json({ message: "Ubicación guardada" });
+  res.json({ message: "Ubicación guardada",latitud,longitud });
+  
 });
 
 // Actualizar o crear una nueva sesión con información específica del bus, ruta, y hora
