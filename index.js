@@ -12,19 +12,19 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("APIs que puedes usar:/api/buses,/api/buses/:id, post_location");
 });
-
+//Trae info de los buses 
 app.get("/api/buses", (req, res) => {
   res.json(buses);
 });
-
+//Trae info de un bus en específico
 app.get("/api/buses/:id", (req, res) => {
   const id = req.params.id;
   const bus = buses.find((bus) => bus.id == id);
   res.json(bus);
 });
-
+//Trae info de la ubicación en tiempo real de la última actualización 
 app.post("/api/post_location", (req, res) => {
   console.log(req.body);
   const { idTelegram, latitud, longitud } = req.body;
@@ -82,7 +82,7 @@ app.post("/api/sesiones", (req, res) => {
 
   res.json(sesion);
 });
-
+//trae la info solo de los buses que si están activos 
 app.get("/api/sesionesActivas", (req, res) => {
   const sesionesActivas = sesiones.filter(
     (sesion) => sesion.estado == "activo"
@@ -138,7 +138,7 @@ app.get("/api/sesiones/:id/detalles", (req, res) => {
 
     // Obtener la última ubicación de la sesión
     const ubicacionesSesion = ubicaciones.filter(
-      (ubicacion) => ubicacion.idSesion === id
+      (ubicacion) => ubicacion.idSesion === sesionId
     );
     if (ubicacionesSesion.length === 0) {
       return res.status(404).json({ error: "No se encontraron ubicaciones para la sesión dada" });
