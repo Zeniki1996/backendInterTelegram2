@@ -144,7 +144,7 @@ app.post("/api/sesiones/desactivar", (req, res) => {
   }
 
   // Cambiar el estado de la sesión a inactivo
-  sesion.estado = "Desactivado";
+  sesion.estado = "inactivo";
 
   res.json({ message: "Sesión desactivada con éxito.", sesion });
 });
@@ -173,7 +173,7 @@ app.get("/api/sesiones/:id/detalles", (req, res) => {
 
     // Obtener la última ubicación de la sesión
     const ubicacionesSesion = ubicaciones.filter(
-      (ubicacion) => ubicacion.idSesion === sesionId
+      (ubicacion) => ubicacion.idSesion === sesion.id
     );
     if (ubicacionesSesion.length === 0) {
       return res.status(404).json({ error: "No se encontraron ubicaciones para la sesión dada" });
