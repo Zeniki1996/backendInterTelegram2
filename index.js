@@ -131,6 +131,24 @@ app.get("/api/sesionesActivas", (req, res) => {
   res.json(sesionesActivas);
 });
 
+app.post("/api/sesiones/desactivar", (req, res) => {
+  const { idTelegram } = req.body;
+
+  // Buscar la sesión activa del usuario
+  const sesion = sesiones.find(
+    (sesion) => sesion.idTelegram === idTelegram && sesion.estado === "activo"
+  );
+
+  if (!sesion) {
+    return res.status(404).json({ error: "Sesión no encontrada o ya desactivada." });
+  }
+
+  // Cambiar el estado de la sesión a inactivo
+  sesion.estado = "Desactivado";
+
+  res.json({ message: "Sesión desactivada con éxito.", sesion });
+});
+
 
 
 app.get("/api/sesiones/:id/ultimaUbicacion", (req, res) => {
