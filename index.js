@@ -18,12 +18,24 @@ app.get("/", (req, res) => {
 app.get("/api/buses", (req, res) => {
   res.json(buses);
 });
+//Trae las rutas
+app.get("/api/rutas", (req, res) => {
+  res.json(rutas);
+});
+//trae las horas de salida
+app.get("/api/HoraSalida", (req, res) => {
+  res.json(HoraSalida);
+});
 //Trae info de un bus en específico
 app.get("/api/buses/:id", (req, res) => {
   const id = req.params.id;
   const bus = buses.find((bus) => bus.id == id);
   res.json(bus);
 });
+
+
+
+
 //Trae info de la ubicación en tiempo real de la última actualización 
 app.post("/api/post_location", (req, res) => {
   console.log(req.body);
@@ -85,18 +97,29 @@ app.post("/api/sesiones", (req, res) => {
 //trae la info solo de los buses que si están activos 
 app.get("/api/sesionesActivas", (req, res) => {
   const sesionesActivas = sesiones.filter(
-    (sesion) => sesion.estado == "activo"
+    (sesion) => sesion.estado === "activo"
   );
-  // obtener la ultima ubicación de cada sesión y agregar a la respuesta
+
+  // Obtener la última ubicación de cada sesión activa
   sesionesActivas.forEach((sesion) => {
-    const ubicacion = ubicaciones.find((ubicacion) => ubicacion.idSesion == sesion.id);
-    if (ubicacion) {
-      sesion.ultimaUbicacion = ubicacion;
+    // Filtrar y ordenar las ubicaciones asociadas a la sesión
+    const ubicacionesSesion = ubicaciones
+      .filter((ubicacion) => ubicacion.idSesion === sesion.id)
+      .sort((a, b) => b.id - a.id); // Orden descendente por id
+
+    // Obtener la última ubicación si existe
+    if (ubicacionesSesion.length > 0) {
+      sesion.ultimaUbicacion = ubicacionesSesion[0];
+    } else {
+      sesion.ultimaUbicacion = null; // Manejar casos donde no haya ubicaciones
     }
+
     // Obtener detalles del bus, ruta y hora de salida
     const bus = sesion.idBus ? buses.find((bus) => bus.id === sesion.idBus) : null;
     const ruta = sesion.idRuta ? rutas.find((ruta) => ruta.id === sesion.idRuta) : null;
-    const horaSalida = sesion.idHoraSalida ? HoraSalida.find((hora) => hora.id === sesion.idHoraSalida) : null;
+    const horaSalida = sesion.idHoraSalida
+      ? HoraSalida.find((hora) => hora.id === sesion.idHoraSalida)
+      : null;
 
     sesion.detalles = {
       bus: bus ? { id: bus.id, placa: bus.placa, estado: bus.estado } : null,
@@ -104,8 +127,10 @@ app.get("/api/sesionesActivas", (req, res) => {
       horaSalida: horaSalida ? { id: horaSalida.id, hora: horaSalida.hora } : null,
     };
   });
+
   res.json(sesionesActivas);
 });
+
 
 
 app.get("/api/sesiones/:id/ultimaUbicacion", (req, res) => {
@@ -117,14 +142,6 @@ app.get("/api/sesiones/:id/ultimaUbicacion", (req, res) => {
   ubicacionesSesion.sort((a, b) => b.id - a.id);
   //retorna la primera ubicacion
   res.json(ubicacionesSesion[0]);
-});
-
-app.get("/api/rutas", (req, res) => {
-  res.json(rutas);
-});
-
-app.get("/api/HoraSalida", (req, res) => {
-  res.json(HoraSalida);
 });
 
 // Nuevo endpoint para obtener todos los detalles de una sesión específica
