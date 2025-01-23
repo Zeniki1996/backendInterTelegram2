@@ -1,32 +1,32 @@
 buses = [
   {
     id: 1,
-    placa: "PDF4298",
+    placa: "PCP 6994",
     estado: "activo",
   },
   {
     id: 2,
-    placa: "PDG5554",
+    placa: "PCP 5860",
     estado: "activo",
   },
   {
     id: 3,
-    placa: "PDG5561",
+    placa: "PFE 8891",
     estado: "activo",
   },
   {
     id: 4,
-    placa: "PCH5249",
+    placa: "PFE 8887",
     estado: "activo",
   },
   {
     id: 5,
-    placa: "PCP6994",
+    placa: "PFE 8888",
     estado: "activo",
   },
   {
     id: 6,
-    placa: "PCP5860",
+    placa: "UBA 4756",
     estado: "activo",
   }
 ];
