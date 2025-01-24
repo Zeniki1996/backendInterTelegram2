@@ -113,7 +113,7 @@ HoraSalida = [
 rutas = [
   {
     id: 1,
-    nombre: "Jipijapa - Campito",
+    nombre: "Campito - Jipijapa",
   },
   {
     id: 2,
@@ -140,7 +140,7 @@ sesiones = [
     idRuta: 1,
     idHoraSalida: 1,
     idTelegram: 1,
-    estado: "Desactivado",
+    estado: "inactivo",
   },
 ];
 

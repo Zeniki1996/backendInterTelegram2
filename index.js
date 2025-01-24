@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("APIs que puedes usar:/api/buses,/api/buses/:id, post_location");
+  res.send("APIs Telegram service");
 });
 //Trae info de los buses 
 app.get("/api/buses", (req, res) => {
@@ -32,9 +32,6 @@ app.get("/api/buses/:id", (req, res) => {
   const bus = buses.find((bus) => bus.id == id);
   res.json(bus);
 });
-
-
-
 
 //Trae info de la ubicación en tiempo real de la última actualización 
 app.post("/api/post_location", (req, res) => {
@@ -60,7 +57,7 @@ app.post("/api/post_location", (req, res) => {
     longitud,
     timestamp: new Date().toISOString(),
   });
-
+//Esta respuesta es para el usuario que se debe comentar en una salida a producción
   res.json({ message: "Ubicación guardada",latitud,longitud });
   
 });
@@ -130,7 +127,7 @@ app.get("/api/sesionesActivas", (req, res) => {
 
   res.json(sesionesActivas);
 });
-
+//Desactiva la Sesión si se dejó de compartir la ubicación 
 app.post("/api/sesiones/desactivar", (req, res) => {
   const { idTelegram } = req.body;
 
@@ -148,9 +145,7 @@ app.post("/api/sesiones/desactivar", (req, res) => {
 
   res.json({ message: "Sesión desactivada con éxito.", sesion });
 });
-
-
-
+//Trae la última ubicación de una sesión específica
 app.get("/api/sesiones/:id/ultimaUbicacion", (req, res) => {
   const id = req.params.id;
   const ubicacionesSesion = ubicaciones.filter(
@@ -163,6 +158,7 @@ app.get("/api/sesiones/:id/ultimaUbicacion", (req, res) => {
 });
 
 // Nuevo endpoint para obtener todos los detalles de una sesión específica
+/*
 app.get("/api/sesiones/:id/detalles", (req, res) => {
   try {
     const id = parseInt(req.params.id);
@@ -213,7 +209,7 @@ app.get("/api/sesiones/:id/detalles", (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Error del servidor" });
   }
-});
+});*/
 
 app.listen(PORT, () => {
   console.log(`Server corriendo en el puerto ${PORT}`);
